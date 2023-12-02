@@ -5,7 +5,7 @@ import Card from "./Components/Card";
 // Main App Component
 function App() {
   // State for storing fetched data, loading status, and search term
-  const [datas, setDatas] = useState([]);
+  const [datas, setDatas] = useState(null);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [currPage, setCurrPage] = useState(1);
@@ -35,10 +35,12 @@ function App() {
       let data = await response.json();
       // Log the fetched data to the console
       console.log(data);
-      const totalCount = Number(response.headers.get("X-Total-Count"));
-      console.log(totalCount);
       // Set fetched data and stop loading
-      setDatas(data);
+      if (Array.isArray(data)) {
+        setDatas(data);
+      } else {
+        setDatas([]);
+      }
       setLoading(false);
     } catch (err) {
       // Log any errors that occur during the fetch operation
@@ -67,7 +69,7 @@ function App() {
           onChange={(e) => {
             setSearch(e.target.value);
             console.log(e.target.value);
-            setCurrPage(1);
+            setCurrPage(1)
           }}
         />
       </div>
