@@ -1,28 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 
-const Card = () => {
-    const [datas,setDatas] =useState([]);
-
-  const fetchData = async () => {
-    try {
-      let response = await fetch("https://api.punkapi.com/v2/beers");
-      let data = await response.json();
-      console.log(data);
-      setDatas(data)
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  console.log(datas)
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+const Card = ({datas}) => {
+    
 
   return (
-    <div>
-      <h1>my cards data</h1>
+    <div style={{margin:"5px",marginTop:"15px"}}>
+      <h1>Cards data with images</h1>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"5px"}}>
+      {datas?.map((elem)=> (
+        <div key={elem.id} style={{border:"1px solid grey"}}>
+            <h2>Id: {elem.id}</h2>
+            <h3>Name: {elem.name}</h3>
+            <p>ph: {elem.ph}</p>
+            <p>tagline: {elem.tagline}</p>
+            <img src={elem.image_url} alt={elem.name} width={200} height={300}/>
+        </div>
+      ))}
+
+      </div>
+      
     </div>
   );
 };
